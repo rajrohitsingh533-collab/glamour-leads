@@ -1,36 +1,207 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌸 Glamour Glow — Lead Generation Web App
 
-## Getting Started
+A production-ready lead generation platform for a cosmetic brand, built with **Next.js 15** (App Router), **Tailwind CSS v4**, and **Supabase**.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+| Feature | Details |
+|---|---|
+| Landing Page | Hero · About · Benefits · Testimonials · Lead Form |
+| Lead Capture | Validated form → Supabase PostgreSQL |
+| Admin Auth | Supabase email/password login |
+| Admin Dashboard | Search · Sort · Delete leads · Export CSV |
+| Email Alerts | Resend integration (optional) |
+| Deployment | Vercel-ready |
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone / Open the Project
+
+```bash
+cd "glamour-leads"
+```
+
+### 2. Create a Supabase Project
+
+1. Go to **[https://supabase.com](https://supabase.com)** → New Project
+2. Copy your **Project URL** and **anon public key** from:
+   - Settings → API → Project URL
+   - Settings → API → Project API keys → `anon public`
+
+### 3. Set up the Database
+
+In your Supabase project → **SQL Editor** → New query → paste and run:
+
+```sql
+-- Create leads table
+CREATE TABLE public.leads (
+  id         UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  name       TEXT        NOT NULL,
+  phone      TEXT        NOT NULL,
+  email      TEXT        NOT NULL,
+  message    TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Enable Row Level Security
+ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone to insert a new lead (public form)
+CREATE POLICY "Allow public insert"
+  ON public.leads
+  FOR INSERT
+  WITH CHECK (true);
+
+-- Allow authenticated admins to read all leads
+CREATE POLICY "Allow auth select"
+  ON public.leads
+  FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+-- Allow authenticated admins to delete leads
+CREATE POLICY "Allow auth delete"
+  ON public.leads
+  FOR DELETE
+  USING (auth.role() = 'authenticated');
+```
+
+### 4. Create Admin User
+
+In Supabase dashboard → **Authentication** → **Users** → **Add User**:
+- Set email + password for the admin account
+- No code changes needed
+
+### 5. Configure Environment Variables
+
+Copy `.env.local` (already created) and fill in your values:
+
+```bash
+# Required
+NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
+
+# Optional – for email notifications
+RESEND_API_KEY=re_xxxx
+ADMIN_EMAIL=your@email.com
+NEXT_PUBLIC_SITE_URL=https://your-site.vercel.app
+```
+
+### 6. Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Project Structure
 
-## Learn More
+```
+glamour-leads/
+├── app/
+│   ├── (public)/          # Public routes (landing page)
+│   │   ├── layout.tsx     # Navbar + Footer shell
+│   │   └── page.tsx       # Landing page (assembles all sections)
+│   ├── login/
+│   │   ├── page.tsx       # Admin login form
+│   │   └── actions.ts     # signIn / signOut server actions
+│   ├── admin/
+│   │   ├── layout.tsx     # Auth guard (redirects if not logged in)
+│   │   ├── page.tsx       # Dashboard — stats + leads table
+│   │   └── actions.ts     # deleteLead server action
+│   ├── api/
+│   │   └── notify/
+│   │       └── route.ts   # POST — email notification via Resend
+│   ├── layout.tsx         # Root layout
+│   └── globals.css        # Design tokens, animations, utilities
+├── components/
+│   ├── landing/
+│   │   ├── Hero.tsx
+│   │   ├── About.tsx
+│   │   ├── Benefits.tsx
+│   │   ├── Testimonials.tsx
+│   │   ├── ContactSection.tsx
+│   │   └── LeadForm.tsx   # Form with Zod validation + Supabase insert
+│   ├── admin/
+│   │   ├── AdminNav.tsx   # Top bar with sign-out
+│   │   └── LeadsTable.tsx # Search / sort / delete / CSV export
+│   └── ui/
+│       ├── Navbar.tsx     # Sticky responsive navbar
+│       └── Footer.tsx
+├── lib/
+│   └── supabase/
+│       ├── client.ts      # Browser client
+│       └── server.ts      # Server client (RSC / Server Actions)
+├── types/
+│   └── lead.ts            # Lead interface + Zod schema
+├── utils/
+│   ├── formatDate.ts
+│   └── exportCsv.ts
+├── middleware.ts           # Auth guard + session refresh
+└── .env.local             # Environment variables (fill in yours)
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌍 Deploy to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Option A — Vercel CLI
 
-## Deploy on Vercel
+```bash
+npm install -g vercel
+vercel
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Option B — GitHub Import
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push to GitHub
+2. Go to [vercel.com/new](https://vercel.com/new)
+3. Import your repository
+4. Add environment variables in Vercel dashboard → Settings → Environment Variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `RESEND_API_KEY` (optional)
+   - `ADMIN_EMAIL` (optional)
+   - `NEXT_PUBLIC_SITE_URL` (your Vercel URL)
+5. Click **Deploy** 🚀
+
+---
+
+## 🔐 Security Notes
+
+- **RLS is enabled**: unauthenticated users can **only insert** leads — they cannot read or delete.
+- **Admin route** is protected by both middleware and server-side session check in layout.
+- Admin user is created manually in Supabase (no self-registration on the site).
+- `.env.local` is in `.gitignore` by default — never commit it.
+
+---
+
+## 📧 Email Notifications (Optional)
+
+1. Create a free account at [resend.com](https://resend.com)
+2. Add and verify your sender domain
+3. Create an API key
+4. Set `RESEND_API_KEY` and `ADMIN_EMAIL` in `.env.local`
+
+When a new lead submits the form, a notification email is sent to `ADMIN_EMAIL` with all the lead details and a link to the admin dashboard.
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Database | Supabase (PostgreSQL) |
+| Auth | Supabase Auth |
+| Validation | Zod + react-hook-form |
+| Email | Resend (optional) |
+| Deployment | Vercel |
