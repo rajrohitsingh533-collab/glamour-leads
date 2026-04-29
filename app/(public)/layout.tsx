@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import Chatbot from "@/components/ui/Chatbot";
 
 export const metadata: Metadata = {
   title: "Glamour Glow — Premium Natural Cosmetics",
@@ -24,6 +25,7 @@ export default function PublicLayout({
       <Navbar />
       <main>{children}</main>
       <Footer />
+      <Chatbot />
     </>
   );
 }
