@@ -32,15 +32,15 @@ export default function Navbar() {
       }`}
     >
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="p-1.5 rounded-lg gradient-brand">
+        {/* Logo with hidden admin link on the icon */}
+        <div className="flex items-center gap-2 group">
+          <Link href="/admin" className="p-1.5 rounded-lg gradient-brand cursor-pointer transition-transform hover:scale-105" title="Staff Login">
             <Sparkles className="w-4 h-4 text-white" />
-          </span>
-          <span className="font-display text-xl font-bold text-gradient-brand">
+          </Link>
+          <Link href="/" className="font-display text-xl font-bold text-gradient-brand cursor-pointer">
             Glamour Glow
-          </span>
-        </Link>
+          </Link>
+        </div>
 
         {/* Desktop Links */}
         <ul className="hidden md:flex items-center gap-8">
