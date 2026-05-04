@@ -13,9 +13,9 @@ import {
   User,
   ArrowUpRight,
   Sparkles,
-  Instagram,
-  Twitter,
-  Facebook,
+  Globe,
+  Share2,
+  MessageCircle as SocialIcon,
 } from "lucide-react";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
@@ -60,9 +60,9 @@ const CONTACT_INFO = [
 ];
 
 const SOCIAL_LINKS = [
-  { icon: Instagram, label: "Instagram", href: "#", handle: "@glamourglow.beauty" },
-  { icon: Twitter, label: "Twitter", href: "#", handle: "@glamourglow" },
-  { icon: Facebook, label: "Facebook", href: "#", handle: "Glamour Glow" },
+  { icon: Globe, label: "Website", href: "#", handle: "glamourglow.beauty" },
+  { icon: Share2, label: "Share", href: "#", handle: "@glamourglow" },
+  { icon: SocialIcon, label: "Chat", href: "#", handle: "Glamour Glow" },
 ];
 
 export default function ContactPage() {
