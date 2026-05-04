@@ -4,6 +4,7 @@ import Benefits from "@/components/landing/Benefits";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Testimonials from "@/components/landing/Testimonials";
 import FAQ from "@/components/landing/FAQ";
+import ContactPage from "@/components/landing/ContactPage";
 import ContactSection from "@/components/landing/ContactSection";
 
 /**
@@ -19,6 +20,7 @@ export default function LandingPage() {
       <HowItWorks />
       <Testimonials />
       <FAQ />
+      <ContactPage />
       <ContactSection />
     </>
   );

@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Sparkles, Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
-  { label: "About",        href: "#about"        },
-  { label: "Benefits",     href: "#benefits"     },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Reviews",      href: "#testimonials" },
-  { label: "FAQ",          href: "#faq"          },
+  { label: "About",        href: "/about"        },
+  { label: "Benefits",     href: "/benefits"     },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "Reviews",      href: "/reviews"      },
+  { label: "FAQ",          href: "/faq"          },
 ];
 
 export default function Navbar() {
@@ -46,20 +46,20 @@ export default function Navbar() {
         <ul className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
                 className="text-sm font-medium text-stone-500 hover:text-rose-500 transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         {/* CTA Button */}
-        <a href="#contact" className="hidden md:inline-flex btn-primary text-sm py-2 px-5">
+        <Link href="/contact" className="hidden md:inline-flex btn-primary text-sm py-2 px-5">
           Get a Free Sample
-        </a>
+        </Link>
 
         {/* Mobile hamburger */}
         <button
@@ -78,23 +78,23 @@ export default function Navbar() {
           <ul className="flex flex-col gap-1 mb-4">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
                   className="block py-2 px-3 text-sm font-medium text-stone-600 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             onClick={() => setMenuOpen(false)}
-            className="btn-primary w-full text-sm py-2"
+            className="btn-primary w-full text-sm py-2 block text-center"
           >
             Get a Free Sample
-          </a>
+          </Link>
         </div>
       )}
     </header>
