@@ -2,12 +2,12 @@ import Link from "next/link";
 import { Sparkles, Share2, MessageCircle, Globe } from "lucide-react";
 
 const FOOTER_LINKS = [
-  { label: "About",        href: "/about"        },
-  { label: "Benefits",     href: "/benefits"     },
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "Reviews",      href: "/reviews"      },
-  { label: "FAQ",          href: "/faq"          },
-  { label: "Contact",      href: "/contact"      },
+  { label: "About",        href: "#about"        },
+  { label: "Benefits",     href: "#benefits"     },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Testimonials", href: "#testimonials" },
+  { label: "FAQ",          href: "#faq"          },
+  { label: "Contact",      href: "#contact-page" },
   { label: "Privacy Policy", href: "/privacy"    },
 ];
 
