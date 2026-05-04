@@ -128,7 +128,7 @@ export default function Hero() {
           {/* Main product image — floats */}
           <div className="relative w-72 h-72 sm:w-[340px] sm:h-[340px] rounded-3xl overflow-hidden shadow-2xl animate-pulse-glow img-hover-zoom animate-float">
             <Image
-              src="/assets/hero-product.jpeg"
+              src="/assets/hero-product.jpg"
               alt="Glamour Glow hero product — skincare bottles with pink ribbon"
               fill
               sizes="(max-width: 640px) 288px, 340px"
